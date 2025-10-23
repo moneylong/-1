@@ -21,3 +21,74 @@
 |Стратегия обновления|	RollingUpdate|	Бесшовное обновление|
 |Проверка готовности|	/health	Эндпоинт| готовности|
 |Проверка живучести|	/live|	Эндпоинт живучести|
+
+### 🚀 YAML манифест Deployment
+``` apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-devops-app
+  namespace: default
+  labels:
+    app: hello-devops
+    version: v1.0.0
+    environment: production
+spec:
+  replicas: 3
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: hello-devops
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: hello-devops
+        version: v1.0.0
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "3000"
+        prometheus.io/path: "/metrics"
+    spec:
+      containers:
+      - name: hello-devops-container
+        image: xdesh4ka/hello-devops:v1.0.0
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3000
+          protocol: TCP
+        env:
+        - name: NODE_ENV
+          value: "production"
+        - name: PORT
+          value: "3000"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /live
+            port: 3000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 3000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 1
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000
+          allowPrivilegeEscalation: false ```
