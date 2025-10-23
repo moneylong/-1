@@ -96,13 +96,14 @@ spec:
 
 
 ### 🛠 Команды kubectl
-#### Применение манифестов
+### Применение манифестов
+
 # Применить все манифесты из директории
-kubectl apply -f k8s/
+```kubectl apply -f k8s/```
 
 # Применить конкретный манифест
-kubectl apply -f deployment.yaml
-kubectl apply -f service.yaml
+```kubectl apply -f deployment.yaml```
+```kubectl apply -f service.yaml```
 
 # Применить с проверкой синтаксиса
-kubectl apply --validate=true --dry-run=client -f deployment.yaml
+```kubectl apply --validate=true --dry-run=client -f deployment.yaml```
