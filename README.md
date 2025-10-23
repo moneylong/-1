@@ -23,7 +23,7 @@
 |Проверка живучести|	/live|	Эндпоинт живучести|
 
 ### 🚀 YAML манифест Deployment
-``` apiVersion: apps/v1
+```bash apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: hello-devops-app
