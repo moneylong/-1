@@ -23,7 +23,7 @@
 |Проверка живучести|	/live|	Эндпоинт живучести|
 
 ### 🚀 YAML манифест Deployment
-```bash apiVersion: apps/v1
+``` apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: hello-devops-app
@@ -91,4 +91,18 @@ spec:
         securityContext:
           runAsNonRoot: true
           runAsUser: 1000
-          allowPrivilegeEscalation: false ```
+          allowPrivilegeEscalation: false
+```
+
+
+### 🛠 Команды kubectl
+#### Применение манифестов
+# Применить все манифесты из директории
+kubectl apply -f k8s/
+
+# Применить конкретный манифест
+kubectl apply -f deployment.yaml
+kubectl apply -f service.yaml
+
+# Применить с проверкой синтаксиса
+kubectl apply --validate=true --dry-run=client -f deployment.yaml
